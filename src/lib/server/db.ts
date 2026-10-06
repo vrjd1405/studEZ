@@ -7,10 +7,21 @@ let schemaInitialized = false
 
 export function getDb(): Client {
   if (!clientInstance) {
-    const dbPath = path.resolve(process.cwd(), 'studez.db')
-    clientInstance = createClient({
-      url: `file:${dbPath.replace(/\\/g, '/')}`,
-    })
+    const tursoUrl = process.env.TURSO_DATABASE_URL || process.env.DATABASE_URL || process.env.LIBSQL_URL
+    const authToken = process.env.TURSO_AUTH_TOKEN || process.env.DATABASE_AUTH_TOKEN
+
+    if (tursoUrl && (tursoUrl.startsWith('libsql://') || tursoUrl.startsWith('https://') || tursoUrl.startsWith('wss://'))) {
+      clientInstance = createClient({
+        url: tursoUrl,
+        authToken: authToken,
+      })
+    } else {
+      const dbPath = path.resolve(process.cwd(), 'studez.db')
+      clientInstance = createClient({
+        url: `file:${dbPath.replace(/\\/g, '/')}`,
+      })
+    }
+
     if (!schemaInitialized) {
       schemaInitialized = true
       try {
