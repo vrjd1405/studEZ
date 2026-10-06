@@ -327,7 +327,7 @@ ${academicContext}`
     { role: 'user', content: latestQuery },
   ]
 
-  const gemmaApiKey = process.env.GEMMA_API_KEY || process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY || 'AIzaSyA8k94JAFuzOMrINzUDDfT03Ydb2b8qdhg'
+  const gemmaApiKey = process.env.GEMMA_API_KEY || process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY
   const googleModel = selectedConfig.googleModel || 'gemma-4-31b-it'
 
   // 1. High-Performance Google Gemma 4 Open-Source Engine Execution
